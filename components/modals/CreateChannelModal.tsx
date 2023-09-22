@@ -13,6 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { useModalStore } from '@/hooks/useModalStore';
 import { ChannelType } from '@prisma/client';
+import { useEffect } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 
 const formSchema = z.object({
@@ -28,17 +29,26 @@ const formSchema = z.object({
 const CreateChannelModal = () => {
   const router = useRouter();
   const params = useParams();
-  const { type, isOpen, onClose } = useModalStore();
+  const { type, data, isOpen, onClose } = useModalStore();
 
   const isModalOpen = isOpen && type === 'createChannel';
+  const { channelType } = data;
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
-      type: ChannelType.TEXT
+      type: channelType ?? ChannelType.TEXT
     }
   });
+
+  useEffect(() => {
+    if (channelType) {
+      form.setValue('type', channelType);
+    } else {
+      form.setValue('type', ChannelType.TEXT);
+    }
+  }, [form, channelType]);
 
   const isLoading = form.formState.isSubmitting;
 
