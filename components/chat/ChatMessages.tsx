@@ -6,6 +6,7 @@ import { Loader2, ServerCrash } from 'lucide-react';
 import { ElementRef, Fragment, useRef } from 'react';
 
 import { useChatQuery } from '@/hooks/useChatQuery';
+import { useChatScroll } from '@/hooks/useChatScroll';
 import { useChatSocket } from '@/hooks/useChatSocket';
 import ChatItem from './ChatItem';
 import ChatWelcome from './ChatWelcome';
@@ -48,6 +49,13 @@ const ChatMessages = ({ name, member, chatId, apiUrl, socketQuery, socketUrl, pa
     queryKey,
     updateKey,
     addKey
+  });
+  useChatScroll({
+    chatRef,
+    bottomRef,
+    loadMore: fetchNextPage,
+    shouldLoadMore: !isFetchingNextPage && !!hasNextPage,
+    count: data?.pages?.[0]?.items?.length ?? 0
   });
 
   if (status === 'loading') {
