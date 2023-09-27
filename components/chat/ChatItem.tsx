@@ -84,7 +84,7 @@ const ChatItem = ({ id, content, member, timestamp, fileUrl, deleted, currentMem
   const onMemberClick = () => {
     if (member.id === currentMember.id) return;
 
-    router.push(`/server/${params?.serverId}/conversations/${member.id}`);
+    router.push(`/servers/${params?.serverId}/conversations/${member.id}`);
   };
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
