@@ -63,8 +63,8 @@ model Member {
   messages Message[]
   directMessages DirectMessage[]
 
-  converstationInitiated Conversation[] @relation("MemberOne")
-  converstationReceived Conversation[] @relation("MemberTwo")
+  conversationInitiated Conversation[] @relation("MemberOne")
+  conversationReceived Conversation[] @relation("MemberTwo")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -85,10 +85,10 @@ model Channel {
   type ChannelType @default(TEXT)
 
   profileId String
-  profile Profile @relation(fields: [profileId], references: [id])
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
   serverId String
-  server Server @relation(fields: [serverId], references: [id])
+  server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)  
 
   messages Message[]
 
